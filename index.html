@@ -48,53 +48,65 @@
     <div class="flex flex-col lg:flex-row h-screen w-screen overflow-hidden">
         
         <!-- 1. 侧边栏导航 -->
-        <aside class="w-72 bg-[#0f172a] text-slate-400 flex flex-col shrink-0 z-50 transition-all duration-300">
-            <div class="p-10">
-                <div class="flex items-center gap-4 mb-2">
-                    <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20">
-                        <i data-lucide="component" class="text-white w-6 h-6"></i>
-                    </div>
-                    <div>
-                        <h1 class="text-xl font-black text-white tracking-tighter italic">IDMS <span class="text-blue-500 not-italic">  Demo</span></h1>
-                        <p class="text-[10px] font-bold text-slate-500 tracking-[0.3em] uppercase">V1.0 by Mcyo</p>
-                    </div>
-                </div>
+<aside class="w-full lg:w-72 h-auto lg:h-full bg-[#0f172a] text-slate-400 flex flex-col shrink-0 z-50 transition-all duration-300 border-b lg:border-b-0 border-white/5">
+    <!-- Logo 区域：手机端 flex-row 左右分布，大屏 lg:flex-col 上下分布 -->
+    <div class="p-6 lg:p-10 flex flex-row lg:flex-col items-center justify-between lg:items-start shrink-0">
+        <div class="flex items-center gap-4">
+            <!-- 渐变图标 -->
+            <div class="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20">
+                <i data-lucide="component" class="text-white w-5 h-5 lg:w-6 lg:h-6"></i>
             </div>
-
-            <nav class="flex-1 px-4 space-y-2 mt-4 overflow-y-auto no-scrollbar" id="sidebar-nav">
-                <div class="px-6 py-2 text-[10px] font-black text-slate-600 uppercase tracking-widest">核心业务</div>
-                <button onclick="switchTab('insight')" id="nav-insight" class="nav-btn group w-full flex items-center gap-4 px-6 py-4 rounded-2xl transition-all duration-300 font-bold text-sm hover:bg-white/5">
-                    <i data-lucide="layout-grid" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
-                    <span>智能数据洞察</span>
-                </button>
-                <button onclick="switchTab('strategy')" id="nav-strategy" class="nav-btn group w-full flex items-center gap-4 px-6 py-4 rounded-2xl transition-all duration-300 font-bold text-sm hover:bg-white/5">
-                    <i data-lucide="target" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
-                    <span>操盘策略引擎</span>
-                </button>
-                <button onclick="switchTab('execution')" id="nav-execution" class="nav-btn group w-full flex items-center gap-4 px-6 py-4 rounded-2xl transition-all duration-300 font-bold text-sm hover:bg-white/5">
-                    <i data-lucide="truck" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
-                    <span>分货任务中心</span>
-                </button>
-                <div class="px-6 py-4 text-[10px] font-black text-slate-600 uppercase tracking-widest mt-4 border-t border-white/5">内控合规</div>
-                <button onclick="switchTab('compliance')" id="nav-compliance" class="nav-btn group w-full flex items-center gap-4 px-6 py-4 rounded-2xl transition-all duration-300 font-bold text-sm hover:bg-white/5">
-                    <i data-lucide="verified" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
-                    <span>合规审计中心</span>
-                </button>
-            </nav>
-
-            <div class="p-8 border-t border-white/5 bg-slate-900/50">
-                <div class="flex items-center gap-4">
-                    <div class="relative">
-                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="avatar" class="w-12 h-12 rounded-2xl bg-slate-800 border border-white/10 shadow-xl" />
-                        <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-slate-900 rounded-full"></div>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <div class="text-sm font-black text-white truncate">Admin. Mcyo Liu</div>
-                        <div class="text-[10px] font-bold text-slate-500 uppercase tracking-tighter truncate">MSS Business Transformation</div>
-                    </div>
-                </div>
+            <!-- 文字标题 -->
+            <div>
+                <h1 class="text-lg lg:text-xl font-black text-white tracking-tighter italic">IDMS <span class="text-blue-500 not-italic uppercase text-[10px] lg:text-sm">Ultra</span></h1>
+                <p class="hidden lg:block text-[10px] font-bold text-slate-500 tracking-[0.3em] uppercase mt-1">V2.0 PRO Enterprise</p>
             </div>
-        </aside>
+        </div>
+
+        <!-- 手机端特有的汉堡菜单按钮：仅在 lg 以下屏幕显示 -->
+        <button onclick="document.getElementById('sidebar-nav').classList.toggle('hidden')" class="lg:hidden p-2 bg-white/5 rounded-lg text-white hover:bg-white/10 transition-colors">
+            <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+    </div>
+
+    <!-- 导航菜单：手机端默认隐藏(hidden)，大屏默认显示(lg:flex) -->
+    <nav class="hidden lg:flex flex-1 px-4 space-y-2 lg:mt-4 overflow-y-auto no-scrollbar pb-6 lg:pb-0" id="sidebar-nav">
+        <div class="hidden lg:block px-6 py-2 text-[10px] font-black text-slate-600 uppercase tracking-widest">核心业务</div>
+        
+        <button onclick="switchTab('insight')" id="nav-insight" class="nav-btn group w-full flex items-center gap-4 px-6 py-4 rounded-2xl transition-all duration-300 font-bold text-sm hover:bg-white/5">
+            <i data-lucide="layout-grid" class="w-5 h-5"></i>
+            <span>智能数据洞察</span>
+        </button>
+
+        <button onclick="switchTab('strategy')" id="nav-strategy" class="nav-btn group w-full flex items-center gap-4 px-6 py-4 rounded-2xl transition-all duration-300 font-bold text-sm hover:bg-white/5">
+            <i data-lucide="target" class="w-5 h-5"></i>
+            <span>操盘策略引擎</span>
+        </button>
+
+        <button onclick="switchTab('execution')" id="nav-execution" class="nav-btn group w-full flex items-center gap-4 px-6 py-4 rounded-2xl transition-all duration-300 font-bold text-sm hover:bg-white/5">
+            <i data-lucide="truck" class="w-5 h-5"></i>
+            <span>分货任务中心</span>
+        </button>
+
+        <div class="hidden lg:block px-6 py-4 text-[10px] font-black text-slate-600 uppercase tracking-widest mt-4 border-t border-white/5">审计与追踪</div>
+        
+        <button onclick="switchTab('compliance')" id="nav-compliance" class="nav-btn group w-full flex items-center gap-4 px-6 py-4 rounded-2xl transition-all duration-300 font-bold text-sm hover:bg-white/5">
+            <i data-lucide="verified" class="w-5 h-5"></i>
+            <span>合规审计中心</span>
+        </button>
+    </nav>
+
+    <!-- 底部用户信息：手机端直接隐藏 -->
+    <div class="hidden lg:block p-8 border-t border-white/5 bg-slate-900/50">
+        <div class="flex items-center gap-4">
+            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="w-10 h-10 rounded-xl bg-slate-800 border border-white/10" />
+            <div class="flex-1 min-w-0 text-left">
+                <div class="text-sm font-black text-white truncate">Admin. Wang</div>
+                <div class="text-[10px] font-bold text-slate-500 uppercase tracking-tighter truncate">Supply Chain Director</div>
+            </div>
+        </div>
+    </div>
+</aside>
 
         <!-- 2. 主展示区域 -->
         <main class="flex-1 flex flex-col min-w-0 bg-[#f8fafc] relative overflow-hidden">
@@ -858,3 +870,4 @@
 </body>
 
 </html>
+
