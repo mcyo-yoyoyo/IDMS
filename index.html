@@ -38,9 +38,15 @@
         /* 模态框动画 */
         .modal-enter { animation: modalIn 0.3s ease-out; }
         @keyframes modalIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* 移动端表格横向滚动 */
+        .table-container {
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+        }
     </style>
 </head>
-<body class="bg-[#f8fafc] text-slate-900 overflow-y-auto lg:overflow-hidden">
+<body class="bg-[#f8fafc] text-slate-900 overflow-hidden">
 
     <!-- Toast 容器 -->
     <div id="toast-container" class="fixed top-8 left-1/2 -translate-x-1/2 z-[999] space-y-3"></div>
@@ -48,7 +54,7 @@
     <div class="flex h-screen w-screen overflow-hidden">
         
         <!-- 1. 侧边栏导航 -->
-        <aside class="w-72 bg-[#0f172a] text-slate-400 flex flex-col shrink-0 z-50 transition-all duration-300">
+        <aside class="w-72 bg-[#0f172a] text-slate-400 flex flex-col shrink-0 z-50 transition-all duration-300 md:hidden lg:block">
             <div class="p-10">
                 <div class="flex items-center gap-4 mb-2">
                     <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20">
@@ -100,35 +106,35 @@
         <main class="flex-1 flex flex-col min-w-0 bg-[#f8fafc] relative overflow-hidden">
             
             <!-- Header -->
-            <header class="h-24 px-12 glass shrink-0 z-40 flex items-center justify-between border-b border-slate-200 shadow-sm">
-                <div class="flex items-center gap-8">
+            <header class="h-24 px-4 sm:px-6 md:px-12 glass shrink-0 z-40 flex items-center justify-between border-b border-slate-200 shadow-sm">
+                <div class="flex items-center gap-4 sm:gap-8">
                     <div>
-                        <h2 id="view-title" class="text-2xl font-black text-slate-800 tracking-tight leading-none mb-2">数据看板中心</h2>
+                        <h2 id="view-title" class="text-xl sm:text-2xl font-black text-slate-800 tracking-tight leading-none mb-1 sm:mb-2">数据看板中心</h2>
                         <div class="flex items-center gap-2">
                             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                            <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest" id="view-subtitle">Live Decision Engine Running</span>
+                            <span class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest" id="view-subtitle">Live Decision Engine Running</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="flex items-center gap-4">
-                    <div class="h-12 w-[1px] bg-slate-200 mx-2"></div>
-                    <div class="flex flex-col items-end mr-4">
-                        <span class="text-[10px] font-black text-slate-400 uppercase">当前财周</span>
-                        <span class="text-sm font-mono font-black text-slate-700">2023W48 / Q4</span>
+                <div class="flex items-center gap-2 sm:gap-4">
+                    <div class="h-10 w-[1px] bg-slate-200 mx-1 sm:mx-2"></div>
+                    <div class="flex flex-col items-end mr-2 sm:mr-4">
+                        <span class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase">当前财周</span>
+                        <span class="text-xs sm:text-sm font-mono font-black text-slate-700">2023W48 / Q4</span>
                     </div>
-                    <button class="w-12 h-12 rounded-2xl bg-white border border-slate-200 text-slate-400 hover:text-blue-600 hover:border-blue-200 hover:shadow-lg transition-all flex items-center justify-center relative">
-                        <i data-lucide="bell" class="w-5 h-5"></i>
-                        <span class="absolute top-3 right-3 w-2.5 h-2.5 bg-rose-500 border-2 border-white rounded-full"></span>
+                    <button class="w-10 h-10 rounded-2xl bg-white border border-slate-200 text-slate-400 hover:text-blue-600 hover:border-blue-200 hover:shadow-lg transition-all flex items-center justify-center relative">
+                        <i data-lucide="bell" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                        <span class="absolute top-2.5 right-2.5 w-2 h-2 bg-rose-500 border border-white rounded-full"></span>
                     </button>
-                    <button class="px-6 py-3 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-black transition-all shadow-xl shadow-slate-200">
+                    <button class="px-3 py-2 sm:px-6 sm:py-3 bg-slate-900 text-white rounded-2xl text-[9px] sm:text-[10px] font-black uppercase tracking-widest hover:bg-black transition-all shadow-xl shadow-slate-200">
                         选择业务领域
                     </button>
                 </div>
             </header>
 
             <!-- 动态内容区域 -->
-            <div class="flex-1 overflow-y-auto p-12 no-scrollbar" id="main-content">
+            <div class="flex-1 overflow-y-auto p-4 sm:p-6 md:p-12 no-scrollbar" id="main-content">
                 <!-- 由 JavaScript 填充 -->
             </div>
         </main>
@@ -137,136 +143,136 @@
     <!-- 3. 全局模态框体系 -->
     
     <!-- 策略详情/新建模态框 -->
-    <div id="modal-strategy" class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-slate-900/80 backdrop-blur-md p-6">
-        <div class="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-2xl overflow-hidden modal-enter">
-            <div class="p-10 border-b border-slate-100 flex justify-between items-center">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600"><i data-lucide="cog" class="w-6 h-6"></i></div>
+    <div id="modal-strategy" class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-slate-900/80 backdrop-blur-md p-4 sm:p-6">
+        <div class="bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-2xl w-full max-w-2xl overflow-hidden modal-enter">
+            <div class="p-6 sm:p-10 border-b border-slate-100 flex justify-between items-center">
+                <div class="flex items-center gap-3 sm:gap-4">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600"><i data-lucide="cog" class="w-5 h-5 sm:w-6 sm:h-6"></i></div>
                     <div>
-                        <h3 class="text-xl font-black text-slate-800 uppercase tracking-tight">策略逻辑配置</h3>
-                        <p class="text-xs font-bold text-slate-400 uppercase mt-1">Logic Configuration & Weighting</p>
+                        <h3 class="text-lg sm:text-xl font-black text-slate-800 uppercase tracking-tight">策略逻辑配置</h3>
+                        <p class="text-[9px] sm:text-xs font-bold text-slate-400 uppercase mt-1">Logic Configuration & Weighting</p>
                     </div>
                 </div>
-                <button onclick="closeModal('modal-strategy')" class="w-10 h-10 rounded-full hover:bg-slate-100 flex items-center justify-center transition-all"><i data-lucide="x" class="w-5 h-5"></i></button>
+                <button onclick="closeModal('modal-strategy')" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full hover:bg-slate-100 flex items-center justify-center transition-all"><i data-lucide="x" class="w-4 h-4 sm:w-5 sm:h-5"></i></button>
             </div>
-            <div class="p-10 space-y-8">
-                <div class="space-y-4">
-                    <div class="flex justify-between items-end"><label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">策略名称</label><span class="text-[10px] text-blue-600 font-bold italic">Drafting...</span></div>
-                    <input type="text" id="strat-name-input" placeholder="输入策略名称..." class="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-sm outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all">
+            <div class="p-6 sm:p-10 space-y-6 sm:space-y-8">
+                <div class="space-y-3 sm:space-y-4">
+                    <div class="flex justify-between items-end"><label class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest">策略名称</label><span class="text-[9px] sm:text-[10px] text-blue-600 font-bold italic">Drafting...</span></div>
+                    <input type="text" id="strat-name-input" placeholder="输入策略名称..." class="w-full px-4 sm:px-6 py-3 sm:py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-sm outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all">
                 </div>
-                <div class="grid grid-cols-2 gap-6">
-                    <div class="space-y-4">
-                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">基础权重 (Weight)</label>
-                        <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200 space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                    <div class="space-y-3 sm:space-y-4">
+                        <label class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest">基础权重 (Weight)</label>
+                        <div class="p-4 sm:p-6 bg-slate-50 rounded-2xl border border-slate-200 space-y-3 sm:space-y-4">
                             <div class="flex justify-between"><span class="text-xs font-black text-slate-700">85%</span><i data-lucide="zap" class="w-4 h-4 text-blue-500"></i></div>
                             <input type="range" class="custom-slider" value="85">
                         </div>
                     </div>
-                    <div class="space-y-4">
-                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">逻辑引擎 (Engine)</label>
-                        <select class="w-full px-6 py-11 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-sm outline-none appearance-none cursor-pointer">
+                    <div class="space-y-3 sm:space-y-4">
+                        <label class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest">逻辑引擎 (Engine)</label>
+                        <select class="w-full px-4 sm:px-6 py-8 sm:py-11 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-sm outline-none appearance-none cursor-pointer">
                             <option>销售贡献度模型 (Sales Ratio)</option>
                             <option>目标周转天数 (Target WOS)</option>
                             <option>AI 动态预测回归 (Prediction)</option>
                         </select>
                     </div>
                 </div>
-                <div class="pt-6">
-                    <button onclick="saveStrategy()" class="w-full py-5 bg-blue-600 text-white rounded-[1.5rem] font-black uppercase tracking-widest text-xs hover:bg-blue-700 shadow-2xl shadow-blue-200 transition-all transform active:scale-[0.98]">提交分货规则决策</button>
+                <div class="pt-4 sm:pt-6">
+                    <button onclick="saveStrategy()" class="w-full py-4 sm:py-5 bg-blue-600 text-white rounded-[1.5rem] font-black uppercase tracking-widest text-[10px] sm:text-xs hover:bg-blue-700 shadow-2xl shadow-blue-200 transition-all transform active:scale-[0.98]">提交分货规则决策</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- 执行审批工作流模态框 -->
-    <div id="modal-approval" class="fixed inset-0 z-[120] hidden flex items-center justify-center bg-slate-900/90 backdrop-blur-xl p-6">
-        <div class="bg-[#1e293b] rounded-[3rem] shadow-3xl w-full max-w-xl border border-white/5 overflow-hidden modal-enter">
-            <div class="p-12">
-                <div class="text-center mb-12">
-                    <div class="w-20 h-20 bg-blue-600 rounded-[2rem] flex items-center justify-center mx-auto text-white shadow-2xl shadow-blue-500/50 mb-6">
-                        <i data-lucide="file-key-2" class="w-10 h-10"></i>
+    <div id="modal-approval" class="fixed inset-0 z-[120] hidden flex items-center justify-center bg-slate-900/90 backdrop-blur-xl p-4 sm:p-6">
+        <div class="bg-[#1e293b] rounded-[2.5rem] sm:rounded-[3rem] shadow-3xl w-full max-w-xl border border-white/5 overflow-hidden modal-enter">
+            <div class="p-8 sm:p-12">
+                <div class="text-center mb-8 sm:mb-12">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 bg-blue-600 rounded-[1.5rem] sm:rounded-[2rem] flex items-center justify-center mx-auto text-white shadow-2xl shadow-blue-500/50 mb-4 sm:mb-6">
+                        <i data-lucide="file-key-2" class="w-8 h-8 sm:w-10 sm:h-10"></i>
                     </div>
-                    <h3 class="text-2xl font-black text-white uppercase italic tracking-tighter">指令存证与分发</h3>
-                    <p class="text-slate-500 text-[10px] font-bold uppercase tracking-[0.4em] mt-2">Secure Broadcast Protocol v2.4</p>
+                    <h3 class="text-xl sm:text-2xl font-black text-white uppercase italic tracking-tighter">指令存证与分发</h3>
+                    <p class="text-slate-500 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.4em] mt-1 sm:mt-2">Secure Broadcast Protocol v2.4</p>
                 </div>
                 
-                <div class="space-y-10 relative">
-                    <div class="absolute left-10 top-2 bottom-2 w-px bg-white/5"></div>
-                    <div id="step-1" class="step relative flex items-center gap-8 opacity-20">
-                        <div class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-white z-10 border-4 border-[#1e293b] font-mono text-[10px]">01</div>
+                <div class="space-y-6 sm:space-y-10 relative">
+                    <div class="absolute left-6 sm:left-10 top-2 bottom-2 w-px bg-white/5"></div>
+                    <div id="step-1" class="step relative flex items-start gap-4 sm:gap-8 opacity-20">
+                        <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-800 flex items-center justify-center text-white z-10 border-4 border-[#1e293b] font-mono text-[9px] sm:text-[10px]">01</div>
                         <div class="flex-1">
-                            <div class="flex justify-between items-center"><span class="text-xs font-black text-slate-200 uppercase tracking-widest">财务一致性校验</span><span class="status-badge text-[8px] font-black text-slate-500 uppercase">Waiting</span></div>
+                            <div class="flex justify-between items-center"><span class="text-[9px] sm:text-xs font-black text-slate-200 uppercase tracking-widest">财务一致性校验</span><span class="status-badge text-[8px] font-black text-slate-500 uppercase">Waiting</span></div>
                             <div class="h-1 bg-slate-800 rounded-full mt-2 overflow-hidden"><div class="progress-bar h-full bg-blue-500 w-0 transition-all duration-700"></div></div>
                         </div>
                     </div>
-                    <div id="step-2" class="step relative flex items-center gap-8 opacity-20">
-                        <div class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-white z-10 border-4 border-[#1e293b] font-mono text-[10px]">02</div>
+                    <div id="step-2" class="step relative flex items-start gap-4 sm:gap-8 opacity-20">
+                        <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-800 flex items-center justify-center text-white z-10 border-4 border-[#1e293b] font-mono text-[9px] sm:text-[10px]">02</div>
                         <div class="flex-1">
-                            <div class="flex justify-between items-center"><span class="text-xs font-black text-slate-200 uppercase tracking-widest">供应链部长终审 (哈希签名)</span><span class="status-badge text-[8px] font-black text-slate-500 uppercase">Waiting</span></div>
+                            <div class="flex justify-between items-center"><span class="text-[9px] sm:text-xs font-black text-slate-200 uppercase tracking-widest">供应链部长终审 (哈希签名)</span><span class="status-badge text-[8px] font-black text-slate-500 uppercase">Waiting</span></div>
                             <div class="h-1 bg-slate-800 rounded-full mt-2 overflow-hidden"><div class="progress-bar h-full bg-blue-500 w-0 transition-all duration-700"></div></div>
                         </div>
                     </div>
                 </div>
 
-                <div class="mt-16 text-center">
+                <div class="mt-10 sm:mt-16 text-center">
                     <div id="approval-complete-ui" class="hidden">
-                        <div class="text-emerald-400 font-black text-sm uppercase tracking-widest flex items-center justify-center gap-3 mb-6"><i data-lucide="check-circle" class="w-5 h-5"></i> 事务已成功上链存证</div>
-                        <button onclick="finishExecution()" class="px-12 py-4 bg-white text-slate-900 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-slate-100">查看历史存单</button>
+                        <div class="text-emerald-400 font-black text-sm uppercase tracking-widest flex items-center justify-center gap-2 sm:gap-3 mb-4 sm:mb-6"><i data-lucide="check-circle" class="w-4 h-4 sm:w-5 sm:h-5"></i> 事务已成功上链存证</div>
+                        <button onclick="finishExecution()" class="px-8 sm:px-12 py-3 sm:py-4 bg-white text-slate-900 rounded-2xl font-black uppercase text-[10px] sm:text-xs tracking-widest hover:bg-slate-100">查看历史存单</button>
                     </div>
-                    <div id="approval-loading-ui" class="text-slate-600 text-[10px] font-bold uppercase tracking-[0.2em] animate-pulse">正在构建 SHA-256 审计指纹...</div>
+                    <div id="approval-loading-ui" class="text-slate-600 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] animate-pulse">正在构建 SHA-256 审计指纹...</div>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- 合规审计历史详情 (弹窗) -->
-    <div id="modal-audit-detail" class="fixed inset-0 z-[200] hidden flex items-center justify-center bg-slate-900/80 backdrop-blur-md p-6">
-        <div class="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-5xl max-h-[85vh] flex flex-col overflow-hidden modal-enter">
-            <div class="bg-slate-950 px-12 py-10 text-white flex justify-between items-start shrink-0">
+    <div id="modal-audit-detail" class="fixed inset-0 z-[200] hidden flex items-center justify-center bg-slate-900/80 backdrop-blur-md p-4 sm:p-6">
+        <div class="bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-2xl w-full max-w-5xl max-h-[85vh] flex flex-col overflow-hidden modal-enter">
+            <div class="bg-slate-950 px-6 sm:px-12 py-8 sm:py-10 text-white flex justify-between items-start shrink-0">
                 <div>
-                    <div class="flex items-center gap-4 mb-2">
-                        <span class="px-3 py-1 bg-blue-600 rounded-lg text-[10px] font-black uppercase tracking-widest">Blockchain Verified</span>
-                        <h3 id="audit-order-id" class="text-2xl font-black tracking-tighter">ALC-ORDER-102941</h3>
+                    <div class="flex items-center gap-3 sm:gap-4 mb-1 sm:mb-2">
+                        <span class="px-2 py-1 sm:px-3 sm:py-1 bg-blue-600 rounded-lg text-[9px] sm:text-[10px] font-black uppercase tracking-widest">Blockchain Verified</span>
+                        <h3 id="audit-order-id" class="text-xl sm:text-2xl font-black tracking-tighter">ALC-ORDER-102941</h3>
                     </div>
-                    <p class="text-slate-400 text-xs font-bold uppercase tracking-widest">分货执行存证详情 / Executive Transaction Detail</p>
+                    <p class="text-slate-400 text-[9px] sm:text-xs font-bold uppercase tracking-widest">分货执行存证详情 / Executive Transaction Detail</p>
                 </div>
-                <button onclick="closeModal('modal-audit-detail')" class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center hover:bg-white/10 transition-all"><i data-lucide="x" class="w-6 h-6"></i></button>
+                <button onclick="closeModal('modal-audit-detail')" class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-white/5 flex items-center justify-center hover:bg-white/10 transition-all"><i data-lucide="x" class="w-5 h-5 sm:w-6 sm:h-6"></i></button>
             </div>
             
-            <div class="flex-1 overflow-y-auto p-12 space-y-12 no-scrollbar">
+            <div class="flex-1 overflow-y-auto p-6 sm:p-12 space-y-8 sm:space-y-12 no-scrollbar">
                 <!-- 三元数据 -->
-                <div class="grid grid-cols-4 gap-8">
-                    <div class="bg-slate-50 p-6 rounded-3xl border border-slate-100">
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">签署时间</span>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
+                    <div class="bg-slate-50 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-slate-100">
+                        <span class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1 sm:mb-2">签署时间</span>
                         <span id="audit-time" class="text-sm font-black text-slate-800">2023-10-24 14:20</span>
                     </div>
-                    <div class="bg-slate-50 p-6 rounded-3xl border border-slate-100">
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">策略逻辑</span>
+                    <div class="bg-slate-50 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-slate-100">
+                        <span class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1 sm:mb-2">策略逻辑</span>
                         <span id="audit-rule" class="text-sm font-black text-blue-600">销售贡献度模型</span>
                     </div>
-                    <div class="bg-slate-50 p-6 rounded-3xl border border-slate-100">
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">数字签名者</span>
+                    <div class="bg-slate-50 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-slate-100">
+                        <span class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1 sm:mb-2">数字签名者</span>
                         <span id="audit-user" class="text-sm font-black text-slate-800 italic underline underline-offset-4 decoration-slate-200 font-mono">AD-DIR-0822</span>
                     </div>
-                    <div class="bg-slate-50 p-6 rounded-3xl border border-slate-100">
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">区块哈希</span>
-                        <span class="text-[9px] font-mono text-slate-400 break-all leading-tight">8B2F...3F2C...9A1E</span>
+                    <div class="bg-slate-50 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-slate-100">
+                        <span class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1 sm:mb-2">区块哈希</span>
+                        <span class="text-[8px] sm:text-[9px] font-mono text-slate-400 break-all leading-tight">8B2F...3F2C...9A1E</span>
                     </div>
                 </div>
 
                 <!-- 详情表格 -->
-                <div class="space-y-4">
-                    <h4 class="text-xs font-black uppercase text-slate-800 tracking-widest flex items-center gap-3">
-                        <i data-lucide="database" class="w-4 h-4 text-slate-400"></i> 分配矩阵数据复原 (Matrix Restoration)
+                <div class="space-y-3 sm:space-y-4">
+                    <h4 class="text-[9px] sm:text-xs font-black uppercase text-slate-800 tracking-widest flex items-center gap-2 sm:gap-3">
+                        <i data-lucide="database" class="w-4 h-4 sm:w-4 sm:h-4 text-slate-400"></i> 分配矩阵数据复原 (Matrix Restoration)
                     </h4>
-                    <div class="border border-slate-100 rounded-[2rem] overflow-hidden shadow-sm">
-                        <table class="w-full text-sm">
-                            <thead class="bg-slate-50 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">
+                    <div class="table-container border border-slate-100 rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden shadow-sm">
+                        <table class="w-full text-sm min-w-full">
+                            <thead class="bg-slate-50 text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">
                                 <tr>
-                                    <th class="px-8 py-5 text-left">履约节点</th>
-                                    <th class="px-8 py-5 text-right">系统计算数</th>
-                                    <th class="px-8 py-5 text-right text-blue-600 font-black">最终指令数</th>
-                                    <th class="px-8 py-5 text-right italic">偏差率</th>
+                                    <th class="px-4 sm:px-8 py-3 sm:py-5 text-left">履约节点</th>
+                                    <th class="px-4 sm:px-8 py-3 sm:py-5 text-right">系统计算数</th>
+                                    <th class="px-4 sm:px-8 py-3 sm:py-5 text-right text-blue-600 font-black">最终指令数</th>
+                                    <th class="px-4 sm:px-8 py-3 sm:py-5 text-right italic">偏差率</th>
                                 </tr>
                             </thead>
                             <tbody id="audit-matrix-body" class="divide-y divide-slate-50">
@@ -277,11 +283,11 @@
                 </div>
 
                 <!-- 附件复原 -->
-                <div class="space-y-4">
-                    <h4 class="text-xs font-black uppercase text-slate-800 tracking-widest flex items-center gap-3">
-                        <i data-lucide="paperclip" class="w-4 h-4 text-slate-400"></i> 审计证据凭证 (Attachments)
+                <div class="space-y-3 sm:space-y-4">
+                    <h4 class="text-[9px] sm:text-xs font-black uppercase text-slate-800 tracking-widest flex items-center gap-2 sm:gap-3">
+                        <i data-lucide="paperclip" class="w-4 h-4 sm:w-4 sm:h-4 text-slate-400"></i> 审计证据凭证 (Attachments)
                     </h4>
-                    <div id="audit-attachment-list" class="grid grid-cols-2 gap-4">
+                    <div id="audit-attachment-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         <!-- Items -->
                     </div>
                 </div>
@@ -357,8 +363,8 @@
         function showToast(msg, type='success') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
-            toast.className = `px-6 py-4 rounded-2xl glass shadow-2xl flex items-center gap-4 text-sm font-bold border-l-4 ${type==='success' ? 'border-blue-600' : 'border-rose-600'} animate-modal-bounce`;
-            toast.innerHTML = `<i data-lucide="${type==='success'?'check-circle':'alert-circle'}" class="w-5 h-5 ${type==='success'?'text-blue-600':'text-rose-600'}"></i> ${msg}`;
+            toast.className = `px-4 sm:px-6 py-3 sm:py-4 rounded-2xl glass shadow-2xl flex items-center gap-3 sm:gap-4 text-sm font-bold border-l-4 ${type==='success' ? 'border-blue-600' : 'border-rose-600'} animate-modal-bounce`;
+            toast.innerHTML = `<i data-lucide="${type==='success'?'check-circle':'alert-circle'}" class="w-4 h-4 sm:w-5 sm:h-5 ${type==='success'?'text-blue-600':'text-rose-600'}"></i> ${msg}`;
             container.appendChild(toast);
             lucide.createIcons();
             setTimeout(() => { toast.style.opacity = '0'; setTimeout(()=>toast.remove(), 400); }, 3000);
@@ -408,60 +414,60 @@
 
             if (currentTab === 'insight') {
                 content.innerHTML = `
-                    <div class="grid grid-cols-4 gap-8 mb-12">
-                        <div class="bg-white p-8 rounded-[2rem] border border-slate-200 shadow-sm relative overflow-hidden group">
-                            <div class="absolute top-0 right-0 p-6 opacity-5 group-hover:scale-110 transition-transform"><i data-lucide="package" class="w-20 h-20 text-blue-600"></i></div>
-                            <div class="text-[10px] font-black text-slate-400 uppercase mb-4">总可用库存 (Total Pool)</div>
-                            <div class="text-4xl font-black font-mono tracking-tighter">15,420</div>
-                            <div class="mt-4 flex items-center gap-2 text-emerald-500 font-bold text-xs"><i data-lucide="trending-up" class="w-4 h-4"></i> +14% From L/W</div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 mb-8 sm:mb-12">
+                        <div class="bg-white p-6 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] border border-slate-200 shadow-sm relative overflow-hidden group">
+                            <div class="absolute top-0 right-0 p-4 sm:p-6 opacity-5 group-hover:scale-110 transition-transform"><i data-lucide="package" class="w-16 h-16 sm:w-20 sm:h-20 text-blue-600"></i></div>
+                            <div class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase mb-3 sm:mb-4">总可用库存 (Total Pool)</div>
+                            <div class="text-3xl sm:text-4xl font-black font-mono tracking-tighter">15,420</div>
+                            <div class="mt-3 sm:mt-4 flex items-center gap-2 text-emerald-500 font-bold text-xs"><i data-lucide="trending-up" class="w-4 h-4"></i> +14% From L/W</div>
                         </div>
-                        <div class="bg-white p-8 rounded-[2rem] border border-slate-200 shadow-sm">
-                            <div class="text-[10px] font-black text-slate-400 uppercase mb-4">全网周转周期 (Avg. WOS)</div>
-                            <div class="text-4xl font-black font-mono tracking-tighter">2.4 <span class="text-xs text-slate-300 ml-1">WKS</span></div>
-                            <div class="mt-4 flex items-center gap-2 text-amber-500 font-bold text-xs"><i data-lucide="alert-triangle" class="w-4 h-4"></i> Low Stock Threshold</div>
+                        <div class="bg-white p-6 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] border border-slate-200 shadow-sm">
+                            <div class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase mb-3 sm:mb-4">全网周转周期 (Avg. WOS)</div>
+                            <div class="text-3xl sm:text-4xl font-black font-mono tracking-tighter">2.4 <span class="text-xs text-slate-300 ml-1">WKS</span></div>
+                            <div class="mt-3 sm:mt-4 flex items-center gap-2 text-amber-500 font-bold text-xs"><i data-lucide="alert-triangle" class="w-4 h-4"></i> Low Stock Threshold</div>
                         </div>
-                        <div class="bg-white p-8 rounded-[2rem] border border-slate-200 shadow-sm col-span-2">
-                            <div class="flex justify-between items-end mb-6">
-                                <div class="text-[10px] font-black text-slate-400 uppercase">履约满足率分布 (Fulfillment Rate)</div>
+                        <div class="bg-white p-6 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] border border-slate-200 shadow-sm col-span-1 sm:col-span-2">
+                            <div class="flex justify-between items-end mb-4 sm:mb-6">
+                                <div class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase">履约满足率分布 (Fulfillment Rate)</div>
                                 <span class="text-xs font-black text-blue-600">92.4%</span>
                             </div>
-                            <div class="h-3 bg-slate-100 rounded-full overflow-hidden"><div class="h-full bg-blue-600 w-[92.4%] rounded-full shadow-lg shadow-blue-500/20"></div></div>
-                            <div class="mt-4 flex justify-between text-[10px] font-bold text-slate-400"><span>Target: 95.0%</span><span>Variance: -2.6%</span></div>
+                            <div class="h-2.5 sm:h-3 bg-slate-100 rounded-full overflow-hidden"><div class="h-full bg-blue-600 w-[92.4%] rounded-full shadow-lg shadow-blue-500/20"></div></div>
+                            <div class="mt-3 sm:mt-4 flex justify-between text-[9px] sm:text-[10px] font-bold text-slate-400"><span>Target: 95.0%</span><span>Variance: -2.6%</span></div>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-3 gap-8">
-                        <div class="col-span-2 bg-white p-10 rounded-[2.5rem] border border-slate-200 shadow-sm">
-                            <div class="flex justify-between items-center mb-12">
-                                <h3 class="text-xs font-black uppercase tracking-widest text-slate-800">区域门店库存周转监控 (WOS Monitor)</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-8">
+                        <div class="col-span-1 sm:col-span-2 bg-white p-6 sm:p-10 rounded-[2rem] sm:rounded-[2.5rem] border border-slate-200 shadow-sm">
+                            <div class="flex justify-between items-center mb-6 sm:mb-12">
+                                <h3 class="text-[9px] sm:text-xs font-black uppercase tracking-widest text-slate-800">区域门店库存周转监控 (WOS Monitor)</h3>
                                 <div class="flex gap-2">
                                     <span class="px-3 py-1 bg-slate-100 rounded-full text-[9px] font-black uppercase text-slate-400 tracking-tighter">Sort by Velocity</span>
                                 </div>
                             </div>
-                            <div class="h-72 flex items-end gap-10 px-4">
+                            <div class="h-64 sm:h-72 flex items-end gap-6 sm:gap-10 px-2 sm:px-4">
                                 ${stores.map(s => `
                                     <div class="flex-1 flex flex-col items-center group cursor-pointer relative">
-                                        <div class="absolute -top-10 opacity-0 group-hover:opacity-100 transition-all font-mono font-black text-blue-600 text-xs">${s.wos}w</div>
+                                        <div class="absolute -top-8 sm:-top-10 opacity-0 group-hover:opacity-100 transition-all font-mono font-black text-blue-600 text-xs">${s.wos}w</div>
                                         <div class="w-full bg-gradient-to-t from-blue-600 to-blue-400 rounded-xl transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-blue-200" style="height: ${s.wos * 20}%"></div>
-                                        <div class="mt-6 text-[9px] font-black text-slate-400 uppercase tracking-tighter truncate w-full text-center">${s.name.replace('旗舰店','')}</div>
+                                        <div class="mt-4 text-[8px] sm:text-[9px] font-black text-slate-400 uppercase tracking-tighter truncate w-full text-center">${s.name.replace('旗舰店','')}</div>
                                     </div>
                                 `).join('')}
                             </div>
                         </div>
-                        <div class="bg-slate-900 rounded-[2.5rem] p-10 text-white relative overflow-hidden group">
-                            <div class="absolute -right-20 -bottom-20 w-64 h-64 bg-blue-600 rounded-full blur-[80px] opacity-20 transition-all group-hover:opacity-40"></div>
-                            <div class="flex items-center gap-4 mb-10">
-                                <div class="w-10 h-10 bg-blue-500/20 rounded-xl flex items-center justify-center text-blue-400"><i data-lucide="sparkles" class="w-5 h-5"></i></div>
-                                <h3 class="text-xs font-black uppercase tracking-widest text-blue-400">AI 决策助手建议</h3>
+                        <div class="bg-slate-900 rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 text-white relative overflow-hidden group">
+                            <div class="absolute -right-16 -bottom-16 w-56 h-56 bg-blue-600 rounded-full blur-[70px] sm:blur-[80px] opacity-20 transition-all group-hover:opacity-40"></div>
+                            <div class="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-10">
+                                <div class="w-8 h-8 sm:w-10 sm:h-10 bg-blue-500/20 rounded-xl flex items-center justify-center text-blue-400"><i data-lucide="sparkles" class="w-4 h-4 sm:w-5 sm:h-5"></i></div>
+                                <h3 class="text-[9px] sm:text-xs font-black uppercase tracking-widest text-blue-400">AI 决策助手建议</h3>
                             </div>
-                            <div class="space-y-6 relative z-10">
-                                <div class="p-6 bg-white/5 rounded-3xl border border-white/10 hover:bg-white/10 transition-all">
-                                    <div class="text-[10px] font-black uppercase text-blue-300 mb-2">库存预警告警</div>
-                                    <p class="text-xs font-medium leading-relaxed text-slate-400">北京三里屯店 15 Pro 系列库存仅够维持 1.2 周，建议从附近 RDC 调拨 150 台。</p>
+                            <div class="space-y-4 sm:space-y-6 relative z-10">
+                                <div class="p-4 sm:p-6 bg-white/5 rounded-2xl sm:rounded-3xl border border-white/10 hover:bg-white/10 transition-all">
+                                    <div class="text-[9px] font-black uppercase text-blue-300 mb-2">库存预警告警</div>
+                                    <p class="text-[9px] sm:text-xs font-medium leading-relaxed text-slate-400">北京三里屯店 15 Pro 系列库存仅够维持 1.2 周，建议从附近 RDC 调拨 150 台。</p>
                                 </div>
-                                <div class="p-6 bg-white/5 rounded-3xl border border-white/10 hover:bg-white/10 transition-all">
-                                    <div class="text-[10px] font-black uppercase text-blue-300 mb-2">策略偏差提示</div>
-                                    <p class="text-xs font-medium leading-relaxed text-slate-400">检测到华东区域销售贡献率提升 5%，建议在本轮分货中调高权重 0.05。</p>
+                                <div class="p-4 sm:p-6 bg-white/5 rounded-2xl sm:rounded-3xl border border-white/10 hover:bg-white/10 transition-all">
+                                    <div class="text-[9px] font-black uppercase text-blue-300 mb-2">策略偏差提示</div>
+                                    <p class="text-[9px] sm:text-xs font-medium leading-relaxed text-slate-400">检测到华东区域销售贡献率提升 5%，建议在本轮分货中调高权重 0.05。</p>
                                 </div>
                             </div>
                         </div>
@@ -469,51 +475,51 @@
                 `;
             } else if (currentTab === 'strategy') {
                 content.innerHTML = `
-                    <div class="flex justify-between items-end mb-10">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-6 sm:mb-10">
                         <div>
-                            <h3 class="text-xs font-black uppercase tracking-widest text-slate-800">分货策略矩阵 (Strategy Matrix)</h3>
-                            <p class="text-xs text-slate-400 mt-2">管理全局自动分货逻辑与共识参数</p>
+                            <h3 class="text-[9px] sm:text-xs font-black uppercase tracking-widest text-slate-800">分货策略矩阵 (Strategy Matrix)</h3>
+                            <p class="text-[9px] sm:text-xs text-slate-400 mt-2">管理全局自动分货逻辑与共识参数</p>
                         </div>
-                        <button onclick="openModal('modal-strategy')" class="px-8 py-4 bg-slate-900 text-white rounded-2xl flex items-center gap-3 text-[10px] font-black uppercase tracking-widest hover:bg-blue-600 transition-all shadow-xl shadow-slate-200">
+                        <button onclick="openModal('modal-strategy')" class="px-6 py-3 sm:px-8 sm:py-4 bg-slate-900 text-white rounded-2xl flex items-center gap-3 text-[9px] sm:text-[10px] font-black uppercase tracking-widest hover:bg-blue-600 transition-all shadow-xl shadow-slate-200">
                             <i data-lucide="plus" class="w-4 h-4"></i> 新建分货规则
                         </button>
                     </div>
                     
-                    <div class="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden">
-                        <table class="w-full text-left">
-                            <thead class="bg-slate-50 border-b border-slate-100 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                    <div class="bg-white rounded-[2rem] sm:rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden">
+                        <table class="w-full text-left min-w-full">
+                            <thead class="bg-slate-50 border-b border-slate-100 text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest">
                                 <tr>
-                                    <th class="px-10 py-6">规则详情 (Strategy Profile)</th>
-                                    <th class="px-10 py-6">逻辑算法 (Logic)</th>
-                                    <th class="px-10 py-6">当前权重</th>
-                                    <th class="px-10 py-6">审批状态</th>
-                                    <th class="px-10 py-6">操作</th>
+                                    <th class="px-6 sm:px-10 py-4 sm:py-6">规则详情 (Strategy Profile)</th>
+                                    <th class="px-6 sm:px-10 py-4 sm:py-6">逻辑算法 (Logic)</th>
+                                    <th class="px-6 sm:px-10 py-4 sm:py-6">当前权重</th>
+                                    <th class="px-6 sm:px-10 py-4 sm:py-6">审批状态</th>
+                                    <th class="px-6 sm:px-10 py-4 sm:py-6">操作</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-slate-50">
                                 ${rules.map(r => `
                                     <tr class="hover:bg-slate-50/50 transition-all group">
-                                        <td class="px-10 py-8">
+                                        <td class="px-6 sm:px-10 py-6 sm:py-8">
                                             <div class="font-black text-slate-800 tracking-tight text-sm">${r.name}</div>
-                                            <div class="text-[9px] font-mono text-slate-400 uppercase mt-1">ID: SR-2023-${r.id}</div>
+                                            <div class="text-[8px] sm:text-[9px] font-mono text-slate-400 uppercase mt-1">ID: SR-2023-${r.id}</div>
                                         </td>
-                                        <td class="px-10 py-8">
-                                            <span class="px-3 py-1 bg-blue-50 text-blue-600 rounded-lg text-[9px] font-black uppercase tracking-widest">${r.logic}</span>
+                                        <td class="px-6 sm:px-10 py-6 sm:py-8">
+                                            <span class="px-2 sm:px-3 py-1 bg-blue-50 text-blue-600 rounded-lg text-[8px] sm:text-[9px] font-black uppercase tracking-widest">${r.logic}</span>
                                         </td>
-                                        <td class="px-10 py-8">
+                                        <td class="px-6 sm:px-10 py-6 sm:py-8">
                                             <div class="flex items-center gap-3">
-                                                <div class="w-16 h-1.5 bg-slate-100 rounded-full overflow-hidden"><div class="h-full bg-blue-600" style="width: ${r.weight}%"></div></div>
+                                                <div class="w-12 h-1.5 sm:w-16 sm:h-1.5 bg-slate-100 rounded-full overflow-hidden"><div class="h-full bg-blue-600" style="width: ${r.weight}%"></div></div>
                                                 <span class="font-mono font-bold text-slate-800 text-xs">${r.weight}%</span>
                                             </div>
                                         </td>
-                                        <td class="px-10 py-8">
+                                        <td class="px-6 sm:px-10 py-6 sm:py-8">
                                             ${r.status === 'active' 
-                                                ? `<span class="flex items-center gap-2 text-emerald-500 font-black text-[9px] uppercase tracking-widest"><i data-lucide="check-circle" class="w-3 h-3"></i> 启用中</span>`
-                                                : `<span class="flex items-center gap-2 text-amber-500 font-black text-[9px] uppercase tracking-widest"><i data-lucide="clock" class="w-3 h-3"></i> 待评审</span>`
+                                                ? `<span class="flex items-center gap-2 text-emerald-500 font-black text-[8px] sm:text-[9px] uppercase tracking-widest"><i data-lucide="check-circle" class="w-3 h-3"></i> 启用中</span>`
+                                                : `<span class="flex items-center gap-2 text-amber-500 font-black text-[8px] sm:text-[9px] uppercase tracking-widest"><i data-lucide="clock" class="w-3 h-3"></i> 待评审</span>`
                                             }
                                         </td>
-                                        <td class="px-10 py-8 text-right">
-                                            <button class="p-3 rounded-xl hover:bg-white border border-transparent hover:border-slate-200 text-slate-400 hover:text-blue-600 transition-all shadow-sm"><i data-lucide="settings-2" class="w-5 h-5"></i></button>
+                                        <td class="px-6 sm:px-10 py-6 sm:py-8 text-right">
+                                            <button class="p-2.5 sm:p-3 rounded-xl hover:bg-white border border-transparent hover:border-slate-200 text-slate-400 hover:text-blue-600 transition-all shadow-sm"><i data-lucide="settings-2" class="w-4 h-4 sm:w-5 sm:h-5"></i></button>
                                         </td>
                                     </tr>
                                 `).join('')}
@@ -525,104 +531,106 @@
                 if (currentMatrix.length === 0) calculateMatrix();
                 content.innerHTML = `
                     <!-- 优化后的分货配置头部 - 使用 12 列网格布局防止重叠 -->
-                    <div class="grid grid-cols-12 gap-6 mb-8 items-stretch">
+                    <div class="grid grid-cols-1 gap-4 sm:gap-6 mb-6 sm:mb-8">
                         
-                        <!-- 1. SKU 选择区域 (占 4 列) -->
-                        <div class="col-span-12 lg:col-span-4 bg-white p-8 rounded-[2rem] border border-slate-200 shadow-sm flex flex-col justify-between">
+                        <!-- 1. SKU 选择区域 -->
+                        <div class="bg-white p-6 sm:p-8 rounded-[2rem] border border-slate-200 shadow-sm">
                             <div class="space-y-4">
-                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block">1. 选择分货目标 SKU</label>
+                                <label class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest block">1. 选择分货目标 SKU</label>
                                 <div class="relative">
-                                    <select class="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-sm outline-none appearance-none cursor-pointer pr-12 focus:border-blue-500 transition-all">
+                                    <select class="w-full px-4 sm:px-6 py-3 sm:py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-sm outline-none appearance-none cursor-pointer pr-10 focus:border-blue-500 transition-all">
                                         ${products.map(p => `<option ${p.id === selectedProduct.id ? 'selected':''}>${p.name}</option>`).join('')}
                                     </select>
-                                    <i data-lucide="chevron-down" class="absolute right-5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none"></i>
+                                    <i data-lucide="chevron-down" class="absolute right-4 sm:right-5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none"></i>
                                 </div>
                             </div>
-                            <div class="flex justify-between items-center mt-6 pt-4 border-t border-slate-50 text-[10px] font-bold text-slate-400 uppercase">
+                            <div class="flex justify-between items-center mt-4 sm:mt-6 pt-3 sm:pt-4 border-t border-slate-50 text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase">
                                 <span>RDC 仓库存: 14,200</span>
                                 <span class="text-blue-500">锁定预留: 2,000</span>
                             </div>
                         </div>
 
-                        <!-- 2. 额度与逻辑设定区域 (占 5 列) -->
-                        <div class="col-span-12 lg:col-span-5 bg-white p-8 rounded-[2rem] border border-slate-200 shadow-sm flex flex-col justify-between">
-                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-4">2. 设定分货额度与逻辑</label>
-                            <div class="grid grid-cols-2 gap-4 flex-1">
+                        <!-- 2. 额度与逻辑设定区域 -->
+                        <div class="bg-white p-6 sm:p-8 rounded-[2rem] border border-slate-200 shadow-sm">
+                            <label class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-4">2. 设定分货额度与逻辑</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-1">
                                 <div class="relative">
-                                    <div class="absolute left-6 top-1/2 -translate-y-1/2 text-[10px] font-black text-slate-400 uppercase">Pool</div>
+                                    <div class="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 text-[9px] sm:text-[10px] font-black text-slate-400 uppercase">Pool</div>
                                     <input type="number" value="${executionPool}" onchange="executionPool=this.value; calculateMatrix(); render();" 
-                                           class="w-full pl-16 pr-6 py-4 h-full bg-slate-50 border border-slate-200 rounded-2xl font-mono font-bold outline-none focus:border-blue-500 transition-all text-sm">
+                                           class="w-full pl-12 pr-4 sm:pl-16 sm:pr-6 py-4 h-full bg-slate-50 border border-slate-200 rounded-2xl font-mono font-bold outline-none focus:border-blue-500 transition-all text-sm">
                                 </div>
                                 <div class="relative">
                                     <select onchange="activeStrategyId=this.value; calculateMatrix(); render();" 
-                                            class="w-full px-6 py-4 h-full bg-blue-50 text-blue-700 border border-blue-100 rounded-2xl font-black text-[10px] uppercase outline-none appearance-none cursor-pointer pr-10">
+                                            class="w-full px-4 sm:px-6 py-4 h-full bg-blue-50 text-blue-700 border border-blue-100 rounded-2xl font-black text-[9px] sm:text-[10px] uppercase outline-none appearance-none cursor-pointer pr-8 sm:pr-10">
                                         ${rules.filter(r=>r.status==='active').map(r=>`<option value="${r.id}" ${r.id===activeStrategyId?'selected':''}>${r.name}</option>`).join('')}
                                     </select>
-                                    <i data-lucide="zap" class="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-400 pointer-events-none"></i>
+                                    <i data-lucide="zap" class="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-400 pointer-events-none"></i>
                                 </div>
                             </div>
-                            <p class="text-[9px] text-slate-400 mt-4 font-medium italic">* 系统将根据所选策略自动计算各店初始配额</p>
+                            <p class="text-[8px] sm:text-[9px] text-slate-400 mt-4 font-medium italic">* 系统将根据所选策略自动计算各店初始配额</p>
                         </div>
 
-                        <!-- 3. 实时剩余额度状态 (占 3 列) -->
-                        <div class="col-span-12 lg:col-span-3 bg-white p-8 rounded-[2rem] border-2 border-blue-600 shadow-2xl shadow-blue-100 text-center flex flex-col justify-center relative overflow-hidden group">
-                            <div class="absolute -right-4 -top-4 opacity-5 group-hover:scale-110 transition-transform">
-                                <i data-lucide="calculator" class="w-24 h-24 text-blue-900"></i>
+                        <!-- 3. 实时剩余额度状态 -->
+                        <div class="bg-white p-6 sm:p-8 rounded-[2rem] border-2 border-blue-600 shadow-2xl shadow-blue-100 text-center flex flex-col justify-center relative overflow-hidden group">
+                            <div class="absolute -right-2 -top-2 sm:-right-4 sm:-top-4 opacity-5 group-hover:scale-110 transition-transform">
+                                <i data-lucide="calculator" class="w-20 h-20 sm:w-24 sm:h-24 text-blue-900"></i>
                             </div>
-                            <span class="text-[10px] font-black text-blue-400 uppercase tracking-widest mb-1 relative z-10">剩余待分配额度</span>
-                            <div id="pool-remaining-ui" class="text-4xl lg:text-5xl font-black font-mono tracking-tighter text-blue-600 relative z-10">0</div>
-                            <div class="mt-2 text-[8px] font-bold text-blue-300 uppercase tracking-widest relative z-10">Real-time Balance Check</div>
+                            <span class="text-[9px] sm:text-[10px] font-black text-blue-400 uppercase tracking-widest mb-1 relative z-10">剩余待分配额度</span>
+                            <div id="pool-remaining-ui" class="text-3xl sm:text-4xl lg:text-5xl font-black font-mono tracking-tighter text-blue-600 relative z-10">0</div>
+                            <div class="mt-2 text-[7px] sm:text-[8px] font-bold text-blue-300 uppercase tracking-widest relative z-10">Real-time Balance Check</div>
                         </div>
                     </div>
 
                     <!-- 4. 执行明细表格 -->
-                    <div class="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden mb-8">
-                        <table class="w-full text-left">
-                            <thead class="bg-slate-900 text-white text-[10px] font-black uppercase tracking-[0.2em]">
-                                <tr>
-                                    <th class="px-10 py-6">节点门店 (Store Node)</th>
-                                    <th class="px-10 py-6 text-right">历史销售</th>
-                                    <th class="px-10 py-6 text-right">现有库存 / WOS</th>
-                                    <th class="px-10 py-6 text-right bg-slate-800">系统计算</th>
-                                    <th class="px-10 py-6 text-right bg-blue-700">人工修订</th>
-                                    <th class="px-10 py-6 text-right italic">修订偏差</th>
-                                </tr>
-                            </thead>
-                            <tbody id="execution-matrix-body" class="divide-y divide-slate-50">
-                                <!-- Matrix Rows -->
-                            </tbody>
-                        </table>
+                    <div class="bg-white rounded-[2rem] sm:rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden mb-6 sm:mb-8">
+                        <div class="table-container">
+                          <table class="w-full text-left min-w-full">
+                              <thead class="bg-slate-900 text-white text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em]">
+                                  <tr>
+                                      <th class="px-4 sm:px-10 py-4 sm:py-6">节点门店 (Store Node)</th>
+                                      <th class="px-4 sm:px-10 py-4 sm:py-6 text-right">历史销售</th>
+                                      <th class="px-4 sm:px-10 py-4 sm:py-6 text-right">现有库存 / WOS</th>
+                                      <th class="px-4 sm:px-10 py-4 sm:py-6 text-right bg-slate-800">系统计算</th>
+                                      <th class="px-4 sm:px-10 py-4 sm:py-6 text-right bg-blue-700">人工修订</th>
+                                      <th class="px-4 sm:px-10 py-4 sm:py-6 text-right italic">修订偏差</th>
+                                  </tr>
+                              </thead>
+                              <tbody id="execution-matrix-body" class="divide-y divide-slate-50">
+                                  <!-- Matrix Rows -->
+                              </tbody>
+                          </table>
+                        </div>
                     </div>
 
                     <!-- 5. 底部动作区域 -->
-                    <div class="grid grid-cols-2 gap-8 pb-12">
-                        <div class="bg-white p-10 rounded-[2.5rem] border border-slate-200">
-                            <h4 class="text-xs font-black uppercase text-slate-800 tracking-widest mb-8 flex items-center gap-3">
-                                <i data-lucide="file-up" class="w-5 h-5 text-blue-600"></i> 分货决策附件存证 (Audit Evidence)
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 pb-6 sm:pb-12">
+                        <div class="bg-white p-6 sm:p-10 rounded-[2rem] sm:rounded-[2.5rem] border border-slate-200">
+                            <h4 class="text-[9px] sm:text-xs font-black uppercase text-slate-800 tracking-widest mb-6 flex items-center gap-2 sm:gap-3">
+                                <i data-lucide="file-up" class="w-4 h-4 sm:w-5 sm:h-5 text-blue-600"></i> 分货决策附件存证 (Audit Evidence)
                             </h4>
-                            <div id="drop-zone" onclick="document.getElementById('real-file-input').click()" class="border-2 border-dashed border-slate-100 rounded-[2rem] p-12 flex flex-col items-center justify-center cursor-pointer hover:bg-slate-50 transition-all group">
-                                <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                                    <i data-lucide="paperclip" class="text-slate-300 group-hover:text-blue-500 w-8 h-8"></i>
+                            <div id="drop-zone" onclick="document.getElementById('real-file-input').click()" class="border-2 border-dashed border-slate-100 rounded-[2rem] p-8 sm:p-12 flex flex-col items-center justify-center cursor-pointer hover:bg-slate-50 transition-all group">
+                                <div class="w-14 h-14 sm:w-16 sm:h-16 bg-slate-50 rounded-2xl flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 transition-transform">
+                                    <i data-lucide="paperclip" class="text-slate-300 group-hover:text-blue-500 w-6 sm:w-8 h-6 sm:h-8"></i>
                                 </div>
-                                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest group-hover:text-blue-500 transition-colors">点击上传修订原因报告或库存评估表</span>
-                                <div id="file-list-ui" class="mt-4 w-full"></div>
+                                <span class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest group-hover:text-blue-500 transition-colors">点击上传修订原因报告或库存评估表</span>
+                                <div id="file-list-ui" class="mt-3 sm:mt-4 w-full"></div>
                             </div>
                         </div>
-                        <div class="bg-white p-10 rounded-[2.5rem] border border-slate-200 flex flex-col justify-between">
+                        <div class="bg-white p-6 sm:p-10 rounded-[2rem] sm:rounded-[2.5rem] border border-slate-200 flex flex-col justify-between">
                             <div>
-                                <h4 class="text-xs font-black uppercase text-slate-800 tracking-widest mb-6">决策最终汇总统计</h4>
-                                <div class="grid grid-cols-2 gap-6">
-                                    <div class="p-6 bg-slate-50 rounded-[1.5rem] border border-slate-100">
-                                        <div class="text-[9px] font-black text-slate-400 uppercase mb-2">Total Allocated</div>
-                                        <div class="text-2xl font-black font-mono" id="sum-total">0</div>
+                                <h4 class="text-[9px] sm:text-xs font-black uppercase text-slate-800 tracking-widest mb-4 sm:mb-6">决策最终汇总统计</h4>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                                    <div class="p-4 sm:p-6 bg-slate-50 rounded-[1.5rem] border border-slate-100">
+                                        <div class="text-[8px] sm:text-[9px] font-black text-slate-400 uppercase mb-2">Total Allocated</div>
+                                        <div class="text-xl sm:text-2xl font-black font-mono" id="sum-total">0</div>
                                     </div>
-                                    <div class="p-6 bg-slate-50 rounded-[1.5rem] border border-slate-100">
-                                        <div class="text-[9px] font-black text-slate-400 uppercase mb-2">Deviation Range</div>
-                                        <div class="text-2xl font-black font-mono text-blue-600">±15%</div>
+                                    <div class="p-4 sm:p-6 bg-slate-50 rounded-[1.5rem] border border-slate-100">
+                                        <div class="text-[8px] sm:text-[9px] font-black text-slate-400 uppercase mb-2">Deviation Range</div>
+                                        <div class="text-xl sm:text-2xl font-black font-mono text-blue-600">±15%</div>
                                     </div>
                                 </div>
                             </div>
-                            <button onclick="submitApproval()" class="w-full py-5 bg-blue-600 text-white rounded-[1.5rem] font-black uppercase tracking-widest text-xs shadow-2xl shadow-blue-100 hover:bg-blue-700 transition-all transform active:scale-95">提交指令至区块链存证中心</button>
+                            <button onclick="submitApproval()" class="w-full py-4 sm:py-5 bg-blue-600 text-white rounded-[1.5rem] font-black uppercase tracking-widest text-[10px] sm:text-xs shadow-2xl shadow-blue-100 hover:bg-blue-700 transition-all transform active:scale-95">提交指令至区块链存证中心</button>
                         </div>
                     </div>
                 `;
@@ -630,87 +638,89 @@
                 updatePoolSummary();
             } else if (currentTab === 'compliance') {
                 content.innerHTML = `
-                    <div class="grid grid-cols-3 gap-8 mb-12">
-                        <div class="bg-white p-10 rounded-[2.5rem] border border-slate-200 shadow-sm relative overflow-hidden group">
-                            <div class="flex items-center gap-4 mb-8">
-                                <div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-500"><i data-lucide="link-2" class="w-5 h-5"></i></div>
-                                <h3 class="text-xs font-black uppercase tracking-widest text-slate-800">全链路审计追踪 (Logs)</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-8 mb-8 sm:mb-12">
+                        <div class="bg-white p-6 sm:p-10 rounded-[2rem] sm:rounded-[2.5rem] border border-slate-200 shadow-sm relative overflow-hidden group">
+                            <div class="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
+                                <div class="w-8 h-8 sm:w-10 sm:h-10 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-500"><i data-lucide="link-2" class="w-4 h-4 sm:w-5 sm:h-5"></i></div>
+                                <h3 class="text-[9px] sm:text-xs font-black uppercase tracking-widest text-slate-800">全链路审计追踪 (Logs)</h3>
                             </div>
-                            <div class="space-y-8 relative pl-6">
-                                <div class="absolute left-[7px] top-1 bottom-1 w-px bg-slate-100"></div>
-                                <div class="relative"><div class="absolute -left-[23px] top-1 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-white"></div><div class="text-[10px] font-black uppercase text-slate-800">指令广播完成</div><div class="text-[8px] font-bold text-slate-400 uppercase mt-1">今天 14:21:05 · ID: #8201</div></div>
-                                <div class="relative"><div class="absolute -left-[23px] top-1 w-3.5 h-3.5 rounded-full bg-blue-500 border-2 border-white"></div><div class="text-[10px] font-black uppercase text-slate-800">SHA-256 哈希锁定</div><div class="text-[8px] font-bold text-slate-400 uppercase mt-1">今天 14:20:12 · ID: #8200</div></div>
-                                <div class="relative opacity-30"><div class="absolute -left-[23px] top-1 w-3.5 h-3.5 rounded-full bg-slate-200 border-2 border-white"></div><div class="text-[10px] font-black uppercase text-slate-400">待处理队列</div></div>
+                            <div class="space-y-6 sm:space-y-8 relative pl-4 sm:pl-6">
+                                <div class="absolute left-[5px] sm:left-[7px] top-1 bottom-1 w-px bg-slate-100"></div>
+                                <div class="relative"><div class="absolute -left-[21px] sm:-left-[23px] top-1 w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full bg-emerald-500 border-2 border-white"></div><div class="text-[9px] sm:text-[10px] font-black uppercase text-slate-800">指令广播完成</div><div class="text-[7px] sm:text-[8px] font-bold text-slate-400 uppercase mt-1">今天 14:21:05 · ID: #8201</div></div>
+                                <div class="relative"><div class="absolute -left-[21px] sm:-left-[23px] top-1 w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full bg-blue-500 border-2 border-white"></div><div class="text-[9px] sm:text-[10px] font-black uppercase text-slate-800">SHA-256 哈希锁定</div><div class="text-[7px] sm:text-[8px] font-bold text-slate-400 uppercase mt-1">今天 14:20:12 · ID: #8200</div></div>
+                                <div class="relative opacity-30"><div class="absolute -left-[21px] sm:-left-[23px] top-1 w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full bg-slate-200 border-2 border-white"></div><div class="text-[9px] sm:text-[10px] font-black uppercase text-slate-400">待处理队列</div></div>
                             </div>
                         </div>
-                        <div class="col-span-2 bg-white p-10 rounded-[2.5rem] border border-slate-200 shadow-sm">
-                            <h3 class="text-xs font-black uppercase tracking-widest text-slate-800 mb-8">合规核心操作日志 (Evidence Stream)</h3>
-                            <div class="h-48 overflow-y-auto no-scrollbar space-y-3">
-                                <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100 flex justify-between items-center group hover:border-blue-200 transition-all">
-                                    <div class="flex items-center gap-5">
-                                        <div class="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-400 group-hover:text-blue-500"><i data-lucide="shield-check" class="w-5 h-5"></i></div>
-                                        <div><div class="text-[11px] font-black text-slate-800 uppercase tracking-tight">单据 ALC-2311W2-082 审批全链路通过</div><div class="text-[8px] font-bold text-slate-400 uppercase mt-1">Approval Matrix · Signed by Finance_Dir</div></div>
+                        <div class="col-span-1 sm:col-span-2 bg-white p-6 sm:p-10 rounded-[2rem] sm:rounded-[2.5rem] border border-slate-200 shadow-sm">
+                            <h3 class="text-[9px] sm:text-xs font-black uppercase tracking-widest text-slate-800 mb-6 sm:mb-8">合规核心操作日志 (Evidence Stream)</h3>
+                            <div class="h-40 sm:h-48 overflow-y-auto no-scrollbar space-y-3">
+                                <div class="p-4 sm:p-5 bg-slate-50 rounded-2xl border border-slate-100 flex justify-between items-center group hover:border-blue-200 transition-all">
+                                    <div class="flex items-center gap-4 sm:gap-5">
+                                        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-400 group-hover:text-blue-500"><i data-lucide="shield-check" class="w-4 h-4 sm:w-5 sm:h-5"></i></div>
+                                        <div><div class="text-[10px] sm:text-[11px] font-black text-slate-800 uppercase tracking-tight">单据 ALC-2311W2-082 审批全链路通过</div><div class="text-[7px] sm:text-[8px] font-bold text-slate-400 uppercase mt-1">Approval Matrix · Signed by Finance_Dir</div></div>
                                     </div>
-                                    <div class="text-[10px] font-mono font-bold text-slate-400">14:21:05</div>
+                                    <div class="text-[9px] sm:text-[10px] font-mono font-bold text-slate-400">14:21:05</div>
                                 </div>
-                                <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100 flex justify-between items-center group hover:border-blue-200 transition-all">
-                                    <div class="flex items-center gap-5">
-                                        <div class="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-400 group-hover:text-blue-500"><i data-lucide="external-link" class="w-5 h-5"></i></div>
-                                        <div><div class="text-[11px] font-black text-slate-800 uppercase tracking-tight">手动修订指令已加密保存</div><div class="text-[8px] font-bold text-slate-400 uppercase mt-1">Audit Trail · Signed by Admin.Wang</div></div>
+                                <div class="p-4 sm:p-5 bg-slate-50 rounded-2xl border border-slate-100 flex justify-between items-center group hover:border-blue-200 transition-all">
+                                    <div class="flex items-center gap-4 sm:gap-5">
+                                        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-400 group-hover:text-blue-500"><i data-lucide="external-link" class="w-4 h-4 sm:w-5 sm:h-5"></i></div>
+                                        <div><div class="text-[10px] sm:text-[11px] font-black text-slate-800 uppercase tracking-tight">手动修订指令已加密保存</div><div class="text-[7px] sm:text-[8px] font-bold text-slate-400 uppercase mt-1">Audit Trail · Signed by Admin.Wang</div></div>
                                     </div>
-                                    <div class="text-[10px] font-mono font-bold text-slate-400">14:20:12</div>
+                                    <div class="text-[9px] sm:text-[10px] font-mono font-bold text-slate-400">14:20:12</div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden mb-20">
-                        <div class="p-10 border-b border-slate-50 flex justify-between items-center bg-slate-50/30">
+                    <div class="bg-white rounded-[2rem] sm:rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden mb-12 sm:mb-20">
+                        <div class="p-6 sm:p-10 border-b border-slate-50 flex flex-col sm:flex-row justify-between items-start sm:items-center bg-slate-50/30 gap-2 sm:gap-0">
                             <div>
-                                <h3 class="text-xs font-black uppercase tracking-widest text-slate-800">分货指令历史存单库 (Archive Archive)</h3>
-                                <p class="text-[10px] text-slate-400 font-bold uppercase mt-2">点击单号可透视查看历史分配矩阵与附件</p>
+                                <h3 class="text-[9px] sm:text-xs font-black uppercase tracking-widest text-slate-800">分货指令历史存单库 (Archive Archive)</h3>
+                                <p class="text-[9px] sm:text-[10px] text-slate-400 font-bold uppercase mt-2">点击单号可透视查看历史分配矩阵与附件</p>
                             </div>
                             <div class="flex gap-2">
-                                <button class="p-3 rounded-xl bg-white border border-slate-200 text-slate-400 hover:text-blue-600 transition-all shadow-sm"><i data-lucide="search" class="w-5 h-5"></i></button>
-                                <button class="p-3 rounded-xl bg-white border border-slate-200 text-slate-400 hover:text-blue-600 transition-all shadow-sm"><i data-lucide="download" class="w-5 h-5"></i></button>
+                                <button class="p-2.5 sm:p-3 rounded-xl bg-white border border-slate-200 text-slate-400 hover:text-blue-600 transition-all shadow-sm"><i data-lucide="search" class="w-4 h-4 sm:w-5 sm:h-5"></i></button>
+                                <button class="p-2.5 sm:p-3 rounded-xl bg-white border border-slate-200 text-slate-400 hover:text-blue-600 transition-all shadow-sm"><i data-lucide="download" class="w-4 h-4 sm:w-5 sm:h-5"></i></button>
                             </div>
                         </div>
-                        <table class="w-full text-left">
-                            <thead class="bg-slate-50 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">
-                                <tr>
-                                    <th class="px-10 py-6">存证单号 (TXID)</th>
-                                    <th class="px-10 py-6">分货商品</th>
-                                    <th class="px-10 py-6 text-right">分派总量</th>
-                                    <th class="px-10 py-6">存证附件</th>
-                                    <th class="px-10 py-6 text-center">状态</th>
-                                    <th class="px-10 py-6 text-right">操作</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-50">
-                                ${historyRecords.map(o => `
-                                    <tr class="hover:bg-slate-50/50 transition-all">
-                                        <td class="px-10 py-7">
-                                            <button onclick="showAuditDetail('${o.id}')" class="text-blue-600 font-black text-xs hover:underline underline-offset-4 tracking-tighter">${o.id}</button>
-                                            <div class="text-[9px] font-bold text-slate-400 mt-1">${o.time}</div>
-                                        </td>
-                                        <td class="px-10 py-7 font-black text-slate-800 text-xs">${o.product}</td>
-                                        <td class="px-10 py-7 text-right font-mono font-bold text-slate-700">${o.total}</td>
-                                        <td class="px-10 py-7">
-                                            ${o.files.length > 0 
-                                                ? `<span class="flex items-center gap-2 text-emerald-500 font-black text-[9px] uppercase"><i data-lucide="link" class="w-3 h-3"></i> ${o.files.length} 个文件</span>`
-                                                : `<span class="text-slate-300">--</span>`
-                                            }
-                                        </td>
-                                        <td class="px-10 py-7 text-center">
-                                            <span class="px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full text-[8px] font-black uppercase tracking-widest border border-emerald-100">LOCKED</span>
-                                        </td>
-                                        <td class="px-10 py-7 text-right">
-                                            <button onclick="showAuditDetail('${o.id}')" class="w-10 h-10 rounded-xl border border-slate-200 text-slate-400 hover:text-blue-600 hover:bg-white transition-all"><i data-lucide="eye" class="w-5 h-5"></i></button>
-                                        </td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
+                        <div class="table-container">
+                          <table class="w-full text-left min-w-full">
+                              <thead class="bg-slate-50 text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">
+                                  <tr>
+                                      <th class="px-4 sm:px-10 py-4 sm:py-6">存证单号 (TXID)</th>
+                                      <th class="px-4 sm:px-10 py-4 sm:py-6">分货商品</th>
+                                      <th class="px-4 sm:px-10 py-4 sm:py-6 text-right">分派总量</th>
+                                      <th class="px-4 sm:px-10 py-4 sm:py-6">存证附件</th>
+                                      <th class="px-4 sm:px-10 py-4 sm:py-6 text-center">状态</th>
+                                      <th class="px-4 sm:px-10 py-4 sm:py-6 text-right">操作</th>
+                                  </tr>
+                              </thead>
+                              <tbody class="divide-y divide-slate-50">
+                                  ${historyRecords.map(o => `
+                                      <tr class="hover:bg-slate-50/50 transition-all">
+                                          <td class="px-4 sm:px-10 py-5 sm:py-7">
+                                              <button onclick="showAuditDetail('${o.id}')" class="text-blue-600 font-black text-xs hover:underline underline-offset-4 tracking-tighter">${o.id}</button>
+                                              <div class="text-[8px] sm:text-[9px] font-bold text-slate-400 mt-1">${o.time}</div>
+                                          </td>
+                                          <td class="px-4 sm:px-10 py-5 sm:py-7 font-black text-slate-800 text-xs">${o.product}</td>
+                                          <td class="px-4 sm:px-10 py-5 sm:py-7 text-right font-mono font-bold text-slate-700">${o.total}</td>
+                                          <td class="px-4 sm:px-10 py-5 sm:py-7">
+                                              ${o.files.length > 0 
+                                                  ? `<span class="flex items-center gap-2 text-emerald-500 font-black text-[8px] sm:text-[9px] uppercase"><i data-lucide="link" class="w-3 h-3"></i> ${o.files.length} 个文件</span>`
+                                                  : `<span class="text-slate-300">--</span>`
+                                              }
+                                          </td>
+                                          <td class="px-4 sm:px-10 py-5 sm:py-7 text-center">
+                                              <span class="px-2.5 sm:px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full text-[8px] sm:text-[8px] font-black uppercase tracking-widest border border-emerald-100">LOCKED</span>
+                                          </td>
+                                          <td class="px-4 sm:px-10 py-5 sm:py-7 text-right">
+                                              <button onclick="showAuditDetail('${o.id}')" class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl border border-slate-200 text-slate-400 hover:text-blue-600 hover:bg-white transition-all"><i data-lucide="eye" class="w-4 h-4 sm:w-5 sm:h-5"></i></button>
+                                          </td>
+                                      </tr>
+                                  `).join('')}
+                              </tbody>
+                          </table>
+                        </div>
                     </div>
                 `;
             }
@@ -725,21 +735,21 @@
                 const devColor = Math.abs(row.dev) > 10 ? 'text-rose-500' : (Math.abs(row.dev) > 0 ? 'text-amber-500' : 'text-slate-400');
                 return `
                     <tr class="group hover:bg-blue-50/20 transition-all">
-                        <td class="px-10 py-6">
+                        <td class="px-4 sm:px-10 py-4 sm:py-6">
                             <div class="font-black text-slate-800 text-sm tracking-tight">${store.name}</div>
-                            <div class="text-[9px] font-bold text-slate-400 uppercase mt-1 tracking-widest">${store.type}</div>
+                            <div class="text-[8px] sm:text-[9px] font-bold text-slate-400 uppercase mt-1 tracking-widest">${store.type}</div>
                         </td>
-                        <td class="px-10 py-6 text-right font-mono font-bold text-slate-500">${store.sales}</td>
-                        <td class="px-10 py-6 text-right">
+                        <td class="px-4 sm:px-10 py-4 sm:py-6 text-right font-mono font-bold text-slate-500">${store.sales}</td>
+                        <td class="px-4 sm:px-10 py-4 sm:py-6 text-right">
                             <div class="text-xs font-black text-slate-700 font-mono">${store.stock}</div>
-                            <div class="text-[9px] font-bold text-slate-400 uppercase mt-1">WOS: ${store.wos}w</div>
+                            <div class="text-[8px] sm:text-[9px] font-bold text-slate-400 uppercase mt-1">WOS: ${store.wos}w</div>
                         </td>
-                        <td class="px-10 py-6 text-right bg-slate-50 font-black font-mono text-slate-400 group-hover:text-slate-600 transition-colors">${row.sys}</td>
-                        <td class="px-10 py-4 text-right bg-blue-50/30">
+                        <td class="px-4 sm:px-10 py-4 sm:py-6 text-right bg-slate-50 font-black font-mono text-slate-400 group-hover:text-slate-600 transition-colors">${row.sys}</td>
+                        <td class="px-4 sm:px-10 py-3 sm:py-4 text-right bg-blue-50/30">
                             <input type="number" value="${row.final}" oninput="updateManual('${row.storeId}', this.value)" 
-                                class="w-24 px-4 py-3 bg-white border-2 border-blue-100 rounded-xl text-right font-black font-mono focus:border-blue-600 outline-none transition-all shadow-sm">
+                                class="w-20 px-3 sm:w-24 sm:px-4 py-2 sm:py-3 bg-white border-2 border-blue-100 rounded-xl text-right font-black font-mono focus:border-blue-600 outline-none transition-all shadow-sm">
                         </td>
-                        <td class="px-10 py-6 text-right font-mono text-xs font-black italic ${devColor}">${row.dev > 0 ? '+' : ''}${row.dev}%</td>
+                        <td class="px-4 sm:px-10 py-4 sm:py-6 text-right font-mono text-xs font-black italic ${devColor}">${row.dev > 0 ? '+' : ''}${row.dev}%</td>
                     </tr>
                 `;
             }).join('');
@@ -752,7 +762,7 @@
             const remEl = document.getElementById('pool-remaining-ui');
             if (remEl) {
                 remEl.innerText = remaining.toLocaleString();
-                remEl.className = `text-4xl lg:text-5xl font-black font-mono tracking-tighter ${remaining < 0 ? 'text-rose-500 animate-pulse' : 'text-blue-600'}`;
+                remEl.className = `text-3xl sm:text-4xl lg:text-5xl font-black font-mono tracking-tighter ${remaining < 0 ? 'text-rose-500 animate-pulse' : 'text-blue-600'}`;
             }
             const sumEl = document.getElementById('sum-total');
             if (sumEl) sumEl.innerText = sumTotal.toLocaleString();
@@ -764,12 +774,12 @@
             if (!file) return;
             const fileList = document.getElementById('file-list-ui');
             fileList.innerHTML = `
-                <div class="p-4 bg-emerald-50 rounded-2xl border border-emerald-100 flex items-center justify-between animate-modal-bounce">
-                    <div class="flex items-center gap-3">
+                <div class="p-3 sm:p-4 bg-emerald-50 rounded-2xl border border-emerald-100 flex items-center justify-between animate-modal-bounce">
+                    <div class="flex items-center gap-2 sm:gap-3">
                         <i data-lucide="file-check-2" class="text-emerald-500"></i>
-                        <span class="text-[10px] font-black text-emerald-700 truncate uppercase">${file.name}</span>
+                        <span class="text-[9px] sm:text-[10px] font-black text-emerald-700 truncate uppercase">${file.name}</span>
                     </div>
-                    <span class="text-[8px] font-black text-emerald-400">HASH: VERIFIED</span>
+                    <span class="text-[7px] sm:text-[8px] font-black text-emerald-400">HASH: VERIFIED</span>
                 </div>
             `;
             lucide.createIcons();
@@ -818,23 +828,23 @@
             
             document.getElementById('audit-matrix-body').innerHTML = record.details.map(d => `
                 <tr class="hover:bg-slate-50">
-                    <td class="px-8 py-5 font-black text-slate-800">${d.name}</td>
-                    <td class="px-8 py-5 text-right font-mono text-slate-400">${d.sys}</td>
-                    <td class="px-8 py-5 text-right font-mono font-black text-blue-600">${d.final}</td>
-                    <td class="px-8 py-5 text-right font-mono text-xs italic ${d.dev.startsWith('+') ? 'text-rose-500' : 'text-slate-400'}">${d.dev}</td>
+                    <td class="px-4 sm:px-8 py-3 sm:py-5 font-black text-slate-800">${d.name}</td>
+                    <td class="px-4 sm:px-8 py-3 sm:py-5 text-right font-mono text-slate-400">${d.sys}</td>
+                    <td class="px-4 sm:px-8 py-3 sm:py-5 text-right font-mono font-black text-blue-600">${d.final}</td>
+                    <td class="px-4 sm:px-8 py-3 sm:py-5 text-right font-mono text-xs italic ${d.dev.startsWith('+') ? 'text-rose-500' : 'text-slate-400'}">${d.dev}</td>
                 </tr>
             `).join('');
             
             const attachBox = document.getElementById('audit-attachment-list');
             if (record.files.length > 0) {
                 attachBox.innerHTML = record.files.map(f => `
-                    <div class="p-4 bg-white border border-slate-100 rounded-2xl flex items-center gap-4 hover:border-blue-200 transition-all cursor-pointer">
-                        <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-blue-500"><i data-lucide="file-text" class="w-5 h-5"></i></div>
-                        <div><div class="text-[10px] font-black text-slate-800 truncate uppercase">${f}</div><div class="text-[8px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">SHA-256 Verified · 1.2MB</div></div>
+                    <div class="p-3 sm:p-4 bg-white border border-slate-100 rounded-2xl flex items-center gap-3 sm:gap-4 hover:border-blue-200 transition-all cursor-pointer">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-blue-50 rounded-xl flex items-center justify-center text-blue-500"><i data-lucide="file-text" class="w-4 h-4 sm:w-5 sm:h-5"></i></div>
+                        <div><div class="text-[9px] sm:text-[10px] font-black text-slate-800 truncate uppercase">${f}</div><div class="text-[7px] sm:text-[8px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">SHA-256 Verified · 1.2MB</div></div>
                     </div>
                 `).join('');
             } else {
-                attachBox.innerHTML = '<div class="col-span-2 py-8 text-center text-[10px] font-black text-slate-300 uppercase tracking-widest">无关联证据附件</div>';
+                attachBox.innerHTML = '<div class="col-span-2 py-6 sm:py-8 text-center text-[9px] sm:text-[10px] font-black text-slate-300 uppercase tracking-widest">无关联证据附件</div>';
             }
             
             openModal('modal-audit-detail');
@@ -857,4 +867,3 @@
     </script>
 </body>
 </html>
-
