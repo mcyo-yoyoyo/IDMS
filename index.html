@@ -84,7 +84,7 @@
                 <div class="px-6 py-4 text-[10px] font-black text-slate-600 uppercase tracking-widest mt-4 border-t border-white/5">内控合规</div>
                 <button onclick="switchTab('compliance')" id="nav-compliance" class="nav-btn group w-full flex items-center gap-4 px-6 py-4 rounded-2xl transition-all duration-300 font-bold text-sm hover:bg-white/5">
                     <i data-lucide="verified" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
-                    <span>合规审计中心</span>
+                    <span>内控合规中心</span>
                 </button>
             </nav>
 
@@ -192,7 +192,7 @@
                     <div class="w-16 h-16 sm:w-20 sm:h-20 bg-blue-600 rounded-[1.5rem] sm:rounded-[2rem] flex items-center justify-center mx-auto text-white shadow-2xl shadow-blue-500/50 mb-4 sm:mb-6">
                         <i data-lucide="file-key-2" class="w-8 h-8 sm:w-10 sm:h-10"></i>
                     </div>
-                    <h3 class="text-xl sm:text-2xl font-black text-white uppercase italic tracking-tighter">指令存证与分发</h3>
+                    <h3 class="text-xl sm:text-2xl font-black text-white uppercase italic tracking-tighter">提交分货结果>tiji
                     <p class="text-slate-500 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.4em] mt-1 sm:mt-2">Secure Broadcast Protocol v2.4</p>
                 </div>
                 
@@ -201,14 +201,14 @@
                     <div id="step-1" class="step relative flex items-start gap-4 sm:gap-8 opacity-20">
                         <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-800 flex items-center justify-center text-white z-10 border-4 border-[#1e293b] font-mono text-[9px] sm:text-[10px]">01</div>
                         <div class="flex-1">
-                            <div class="flex justify-between items-center"><span class="text-[9px] sm:text-xs font-black text-slate-200 uppercase tracking-widest">财务一致性校验</span><span class="status-badge text-[8px] font-black text-slate-500 uppercase">Waiting</span></div>
+                            <div class="flex justify-between items-center"><span class="text-[9px] sm:text-xs font-black text-slate-200 uppercase tracking-widest">电商评审小组决策</span><span class="status-badge text-[8px] font-black text-slate-500 uppercase">Waiting</span></div>
                             <div class="h-1 bg-slate-800 rounded-full mt-2 overflow-hidden"><div class="progress-bar h-full bg-blue-500 w-0 transition-all duration-700"></div></div>
                         </div>
                     </div>
                     <div id="step-2" class="step relative flex items-start gap-4 sm:gap-8 opacity-20">
                         <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-800 flex items-center justify-center text-white z-10 border-4 border-[#1e293b] font-mono text-[9px] sm:text-[10px]">02</div>
                         <div class="flex-1">
-                            <div class="flex justify-between items-center"><span class="text-[9px] sm:text-xs font-black text-slate-200 uppercase tracking-widest">供应链部长终审 (哈希签名)</span><span class="status-badge text-[8px] font-black text-slate-500 uppercase">Waiting</span></div>
+                            <div class="flex justify-between items-center"><span class="text-[9px] sm:text-xs font-black text-slate-200 uppercase tracking-widest">操盘委员会决策</span><span class="status-badge text-[8px] font-black text-slate-500 uppercase">Waiting</span></div>
                             <div class="h-1 bg-slate-800 rounded-full mt-2 overflow-hidden"><div class="progress-bar h-full bg-blue-500 w-0 transition-all duration-700"></div></div>
                         </div>
                     </div>
@@ -216,8 +216,8 @@
 
                 <div class="mt-10 sm:mt-16 text-center">
                     <div id="approval-complete-ui" class="hidden">
-                        <div class="text-emerald-400 font-black text-sm uppercase tracking-widest flex items-center justify-center gap-2 sm:gap-3 mb-4 sm:mb-6"><i data-lucide="check-circle" class="w-4 h-4 sm:w-5 sm:h-5"></i> 事务已成功上链存证</div>
-                        <button onclick="finishExecution()" class="px-8 sm:px-12 py-3 sm:py-4 bg-white text-slate-900 rounded-2xl font-black uppercase text-[10px] sm:text-xs tracking-widest hover:bg-slate-100">查看历史存单</button>
+                        <div class="text-emerald-400 font-black text-sm uppercase tracking-widest flex items-center justify-center gap-2 sm:gap-3 mb-4 sm:mb-6"><i data-lucide="check-circle" class="w-4 h-4 sm:w-5 sm:h-5"></i> 分货记录与附件已上传归档f
+                        <button onclick="finishExecution()" class="px-8 sm:px-12 py-3 sm:py-4 bg-white text-slate-900 rounded-2xl font-black uppercase text-[10px] sm:text-xs tracking-widest hover:bg-slate-100">查看历史分货记录</button>
                     </div>
                     <div id="approval-loading-ui" class="text-slate-600 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] animate-pulse">正在构建 SHA-256 审计指纹...</div>
                 </div>
@@ -606,7 +606,7 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 pb-6 sm:pb-12">
                         <div class="bg-white p-6 sm:p-10 rounded-[2rem] sm:rounded-[2.5rem] border border-slate-200">
                             <h4 class="text-[9px] sm:text-xs font-black uppercase text-slate-800 tracking-widest mb-6 flex items-center gap-2 sm:gap-3">
-                                <i data-lucide="file-up" class="w-4 h-4 sm:w-5 sm:h-5 text-blue-600"></i> 分货决策附件存证 (Audit Evidence)
+                                <i data-lucide="file-up" class="w-4 h-4 sm:w-5 sm:h-5 text-blue-600"></i> 上传分货评审材料 (Upload)
                             </h4>
                             <div id="drop-zone" onclick="document.getElementById('real-file-input').click()" class="border-2 border-dashed border-slate-100 rounded-[2rem] p-8 sm:p-12 flex flex-col items-center justify-center cursor-pointer hover:bg-slate-50 transition-all group">
                                 <div class="w-14 h-14 sm:w-16 sm:h-16 bg-slate-50 rounded-2xl flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 transition-transform">
@@ -630,7 +630,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <button onclick="submitApproval()" class="w-full py-4 sm:py-5 bg-blue-600 text-white rounded-[1.5rem] font-black uppercase tracking-widest text-[10px] sm:text-xs shadow-2xl shadow-blue-100 hover:bg-blue-700 transition-all transform active:scale-95">提交指令至区块链存证中心</button>
+                            <button onclick="submitApproval()" class="w-full py-4 sm:py-5 bg-blue-600 text-white rounded-[1.5rem] font-black uppercase tracking-widest text-[10px] sm:text-xs shadow-2xl shadow-blue-100 hover:bg-blue-700 transition-all transform active:scale-95">提交分货记录至内控合规中心</button>
                         </div>
                     </div>
                 `;
@@ -867,3 +867,4 @@
     </script>
 </body>
 </html>
+
